@@ -17,8 +17,12 @@ int QueueLength = 0;
 int QueueChanged = false;
 
 void setup() {
+  Serial.begin(9600);
   init_eyes();
   init_wings();
+  init_mpu6050();
+  init_eyerot();
+  init_legs();
 }
 
 void loop() {

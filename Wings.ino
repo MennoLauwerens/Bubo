@@ -9,7 +9,7 @@
 Servo ServoWingLeft;
 Servo ServoWingRight;
 
-void init_wings() {
+void init_legs() {
   ServoWingLeft.attach(LeftWingPin);  
   ServoWingRight.attach(RightWingPin);
   ServoWingLeft.write(LeftMinPos);
