@@ -17,7 +17,7 @@ int QueueLength = 0;
 int QueueChanged = false;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   init_eyes();
   init_wings();
   init_mpu6050();
@@ -27,7 +27,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  read_mpu6050();
 }
 
 // Add event to comandqueue
