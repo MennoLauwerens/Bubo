@@ -20,14 +20,15 @@ void setup() {
   Serial.begin(115200);
   init_eyes();
   init_wings();
-  init_mpu6050();
+  //init_mpu6050();
   init_eyerot();
   init_legs();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  read_mpu6050();
+  //read_mpu6050();
+  do_eyes();
+
 }
 
 // Add event to comandqueue
