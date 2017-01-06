@@ -18,20 +18,21 @@ int QueueChanged = false;
 
 void setup() {
   Serial.begin(115200);
-  init_eyes();
+  init_eyes_led();
+  init_eyes_rot();
   init_wings();
-  //init_mpu6050();
-  init_eyerot();
+  init_neck();
   init_legs();
+  //init_mpu6050();
 }
 
-void loop() {
-  //read_mpu6050();
-  do_eyes_rot();
+void loop() { 
   do_eyes_led();
-  do_neck();
+  do_eyes_rot();
   do_wings();
+  do_neck();
   do_legs();
+  //read_mpu6050();
 }
 
 // Add event to comandqueue
