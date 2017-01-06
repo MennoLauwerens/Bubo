@@ -7,7 +7,7 @@
 //Servo MotorSpeedRight;
 
 
-void init_eyerot() {
+void init_eyes_rot() {
   pinMode(LeftEyeDir, OUTPUT);
   pinMode(RightEyeDir, OUTPUT);
   pinMode(LeftEyeSpeed, OUTPUT);
@@ -21,7 +21,7 @@ void init_eyerot() {
   //MotorSpeedRight.attach(RightEyeSpeed);
 }
 
-void do_eyes(){
+void do_eyes_rot(){
   digitalWrite(LeftEyeDir, HIGH);
   digitalWrite(RightEyeDir, LOW);
   digitalWrite(LeftEyeSpeed, LOW);
