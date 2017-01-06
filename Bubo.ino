@@ -27,8 +27,11 @@ void setup() {
 
 void loop() {
   //read_mpu6050();
-  do_eyes();
-
+  do_eyes_rot();
+  do_eyes_led();
+  do_neck();
+  do_wings();
+  do_legs();
 }
 
 // Add event to comandqueue
