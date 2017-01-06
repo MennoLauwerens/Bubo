@@ -17,3 +17,8 @@ void init_legs() {
   //Queue(500,EarAction,0);
   //Queue(3000,EarAction,2);
 }
+
+void do_wings(){
+  ServoWingLeft.write(LeftMaxPos);
+  ServoWingRight.write(RightMaxPos);  
+}
