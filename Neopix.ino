@@ -11,3 +11,8 @@ void init_eyes() {
   //Queue(2000,EyeAction,20);
 }
 
+void do_eyes(){
+  EyePixels.setPixelColor(0 , 255 , 0   , 0);
+  EyePixels.setPixelColor(1 , 0   , 255 , 0);
+  EyePixels.show();
+}
