@@ -1,4 +1,4 @@
-#define LegPin 5
+#define LegPin 10
 
 #define LegMinPos 0
 #define LegNeutralPos 90

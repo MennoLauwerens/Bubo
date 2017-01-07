@@ -27,9 +27,10 @@ void setup() {
   Serial.begin(115200);
   init_eyes_led();
   init_eyes_rot();
+  //init_neck();
+  init_beak();
   init_wings();
-  init_neck();
-  init_legs();
+  //init_legs();
   //init_mpu6050();
 }
 
@@ -40,11 +41,12 @@ void loop() {
     //DumpQueue();
     QueueChanged=false;
   }
-  do_eyes_led();
-  do_eyes_rot();
+  //do_eyes_led();
+  //do_eyes_rot();
   do_wings();
-  do_neck();
-  do_legs();
+  //do_neck();
+  //do_beak();
+  //do_legs();
   //read_mpu6050();
   for (int i=0;i < QueueLength;i++) {
 

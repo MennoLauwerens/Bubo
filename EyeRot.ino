@@ -12,11 +12,22 @@ void init_eyes_rot() {
   pinMode(RightEyeDir, OUTPUT);
   pinMode(LeftEyeSpeed, OUTPUT);
   pinMode(RightEyeSpeed, OUTPUT);
-  
-  digitalWrite(LeftEyeDir, HIGH);
+  delay(10);
+  digitalWrite(LeftEyeDir, LOW);
   digitalWrite(RightEyeDir, HIGH);
   digitalWrite(LeftEyeSpeed, HIGH);
+  digitalWrite(RightEyeSpeed, LOW);
+  delay(1000);
+  digitalWrite(LeftEyeDir, HIGH);
+  digitalWrite(RightEyeDir, LOW);
+  digitalWrite(LeftEyeSpeed, LOW);
   digitalWrite(RightEyeSpeed, HIGH);
+  delay(1000);
+  digitalWrite(LeftEyeDir, LOW);
+  digitalWrite(RightEyeDir, LOW);
+  digitalWrite(LeftEyeSpeed, LOW);
+  digitalWrite(RightEyeSpeed, LOW);
+  
   //MotorSpeedLeft.attach(LeftEyeSpeed);
   //MotorSpeedRight.attach(RightEyeSpeed);
 }
@@ -26,26 +37,25 @@ void do_eyes_rot(){
   digitalWrite(RightEyeDir, LOW);
   digitalWrite(LeftEyeSpeed, LOW);
   digitalWrite(RightEyeSpeed, LOW);
-  Serial.println("LowLow");
+  Serial.println("1");
   delay(1000);
   digitalWrite(LeftEyeDir, LOW);
   digitalWrite(RightEyeDir, HIGH);
   digitalWrite(LeftEyeSpeed, LOW);
   digitalWrite(RightEyeSpeed, LOW);
-  Serial.println("HighLow");
+  Serial.println("2");
   delay(1000);
   digitalWrite(LeftEyeDir, LOW);
   digitalWrite(RightEyeDir, LOW);
   digitalWrite(LeftEyeSpeed, HIGH);
   digitalWrite(RightEyeSpeed, LOW);
-  Serial.println("LowLow");
+  Serial.println("3");
   delay(1000);
   digitalWrite(LeftEyeDir, LOW);
   digitalWrite(RightEyeDir, LOW);
   digitalWrite(LeftEyeSpeed, LOW);
   digitalWrite(RightEyeSpeed, HIGH);
-  digitalWrite(RightEyeSpeed, HIGH);
-  Serial.println("LowHigh");
+  Serial.println("4");
   
 }
 
