@@ -31,9 +31,9 @@ void setup() {
   init_beak();
   init_wings();
   //init_legs();
-  //init_mpu6050();
+  init_mpu6050();
 }
-
+int r;
 void loop() { 
    if (QueueChanged) {
     //Serial.print("QueueLength: ");
@@ -48,6 +48,9 @@ void loop() {
   //do_beak();
   //do_legs();
   //read_mpu6050();
+  r=read_neck();
+  if (r>5 || r<-5) {rot_neck(r);}
+  //Serial.println(read_neck());
   for (int i=0;i < QueueLength;i++) {
 
     if (QueueTime[i] <= millis()) {

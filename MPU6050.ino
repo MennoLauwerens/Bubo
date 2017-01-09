@@ -50,7 +50,7 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 // packet structure for InvenSense teapot demo
 uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\n' };
 
-
+int lastyaw;
 
 // ================================================================
 // ===               INTERRUPT DETECTION ROUTINE                ===
@@ -125,7 +125,46 @@ void init_mpu6050() {
     pinMode(LED_PIN, OUTPUT);
 }
 
-
+int read_neck(){
+  int yaw;
+  int rotation;
+  mpuInterrupt = false;
+  mpuIntStatus = mpu.getIntStatus();
+  fifoCount = mpu.getFIFOCount();
+  if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
+    mpu.resetFIFO();
+    Serial.println(F("FIFO overflow!"));
+    } else if (mpuIntStatus & 0x02) {
+      while (fifoCount < packetSize) fifoCount = mpu.getFIFOCount();
+      mpu.getFIFOBytes(fifoBuffer, packetSize);
+      fifoCount -= packetSize;
+      mpu.dmpGetQuaternion(&q, fifoBuffer);
+      mpu.dmpGetGravity(&gravity, &q);
+      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+      yaw=ypr[0] * 180/M_PI;
+      if (lastyaw>160 && yaw<-160){
+        rotation = (yaw+360) - lastyaw;
+      } else if (lastyaw<-160 && yaw>160){
+        rotation = (yaw-360) - lastyaw;
+      } else {
+        rotation = yaw - lastyaw;
+      }
+      lastyaw=yaw;
+      Serial.println(yaw);
+      return(rotation);
+//      Serial.print("ypr\t");
+//            Serial.print(ypr[0] * 180/M_PI);
+//            Serial.print("\t");
+//            Serial.print(ypr[1] * 180/M_PI);
+//            Serial.print("\t");
+//            Serial.println(ypr[2] * 180/M_PI);
+//        #endif
+//       a ly - b y
+//    150 ->  170 = +20  = b - a
+//    170 -> -170 = +20  = (b+360) - a
+//   -170 ->  170 = -20  = (b-360) - a
+    }
+}
 
 void read_mpu6050(){
     // reset interrupt flag and get INT_STATUS byte
