@@ -29,11 +29,12 @@ void setup() {
   init_eyes_rot();
   init_neck();
   init_beak();
-  init_wings();
+  //init_wings();
   //init_legs();
   init_mpu6050();
+  delay(20000);
 }
-int r;
+
 void loop() { 
    if (QueueChanged) {
     //Serial.print("QueueLength: ");
@@ -48,8 +49,9 @@ void loop() {
   //do_beak();
   //do_legs();
   //read_mpu6050();
-  r=read_neck();
-  if (r>5 || r<-5) {rot_neck(r);}
+  
+  //rot_neck(read_neck());
+  delay(500);
   //Serial.println(read_neck());
   for (int i=0;i < QueueLength;i++) {
 

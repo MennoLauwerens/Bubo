@@ -7,6 +7,7 @@
 Servo ServoNeck;
 
 int neckpos;
+int rotbuffer;
 
 void init_neck() {
   ServoNeck.attach(NeckPin);  
@@ -30,9 +31,17 @@ void do_neck(){
 }
 
 void rot_neck(int rot){
-  neckpos+=rot;
-  if (neckpos>NeckMaxPos) {neckpos=NeckNeutralPos;}
-  if (neckpos<NeckMinPos) {neckpos=NeckNeutralPos;}
-  ServoNeck.write(neckpos);
+  rotbuffer+=rot;
+  //Serial.print("rot_nek: rot=");
+  //Serial.print(rot);
+  //Serial.print("  rotbuffer=");
+  //Serial.println(rotbuffer);
+  if((rotbuffer)<15 || (rotbuffer)>15){
+    neckpos+=rotbuffer;
+    rotbuffer=0;
+    if (neckpos>NeckMaxPos) {neckpos=NeckNeutralPos;}
+    if (neckpos<NeckMinPos) {neckpos=NeckNeutralPos;}
+    ServoNeck.write(neckpos);
+  }
 }
 
