@@ -19,15 +19,44 @@ void init_neck() {
   delay(1000);
   ServoNeck.write(NeckNeutralPos);
   neckpos=NeckNeutralPos;
-  //Queue(500,EarAction,0);
-  //Queue(3000,EarAction,2);
+
+  Queue(2000,NeckAction,10);
 }
 
-void do_neck(){
-  ServoNeck.write(NeckNeutralPos+20);
-  delay(2000); 
-  ServoNeck.write(NeckNeutralPos-20);
-  delay(2000);
+void do_neck(int action, int actiondata){
+    Serial.print("NeckAction: ");
+    Serial.println(action);
+    switch (action) {
+    case 0: // detach
+      ServoNeck.detach();
+      break;
+    case 1: // attach
+      ServoNeck.attach(NeckPin);
+      break;
+    case 2: // absolute move
+       ServoNeck.write(actiondata);
+       neckpos=actiondata;
+       break;
+    case 10: //Schedule new random move
+      random_neck_move();
+      break;
+    }
+}
+
+void random_neck_move(){
+  int moveangle = 20 - random(40);
+  int newpos = neckpos + moveangle;
+  if (newpos>180 || newpos<0){newpos = neckpos - moveangle;}
+  int movespeed = 1; //20 * random(5);
+  int movedir;
+  int tmpdelay = movespeed;
+  if(neckpos<newpos){movedir=1;}else{movedir=-1;}
+  for(int i=neckpos;i!=newpos;i+=movedir){
+    Queue(tmpdelay,NeckAction,2,i);
+    tmpdelay += movespeed;
+  }
+  Queue(tmpdelay+2000,NeckAction,10,0);
+  Serial.println("random  move scheduled!");
 }
 
 void rot_neck(int rot){
@@ -45,3 +74,6 @@ void rot_neck(int rot){
   }
 }
 
+// Init left-right-center
+// - Random reposition differens speeds
+// - Gyro lock on/off

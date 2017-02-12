@@ -15,11 +15,11 @@
 #define LegsAction 5
 #define Mpu6050Action 6
 
-#define MaxQueueLength 25
+#define MaxQueueLength 100
 unsigned long QueueTime[MaxQueueLength];
-int QueueModule[MaxQueueLength];
-int QueueAction[MaxQueueLength];
-int QueueData[MaxQueueLength];
+byte QueueModule[MaxQueueLength];
+byte QueueAction[MaxQueueLength];
+byte QueueData[MaxQueueLength];
 int QueueLength = 0;
 int QueueChanged = false;
 
@@ -29,17 +29,18 @@ void setup() {
   init_eyes_rot();
   init_neck();
   init_beak();
-  //init_wings();
-  //init_legs();
-  init_mpu6050();
-  delay(20000);
+  init_wings();
+  init_legs();
+  //init_mpu6050();
+  //delay(20000);
 }
 
 void loop() { 
+  
    if (QueueChanged) {
-    //Serial.print("QueueLength: ");
-    //Serial.println(QueueLength);
-    //DumpQueue();
+    Serial.print("QueueLength: ");
+    Serial.println(QueueLength);
+    DumpQueue();
     QueueChanged=false;
   }
   //do_eyes_led();
@@ -72,16 +73,16 @@ void loop() {
           // do nothing for debugging
           break;
         case EyesLedAction:
-          //do_eyes_led(QAction);
+          //do_eyes_led(QAction,QData);
           break;
         case EyesRotAction:
-          //do_eyes_rot(QAction);
+          do_eyes_rot(QAction,QData);
           break;   
         case WingAction:
           //init_wings(QAction);
           break;
         case NeckAction:
-          //do_neck(QAction);
+          do_neck(QAction,QData);
           break;
         case LegsAction:  
           //do_legs(QAction,QData);
@@ -103,4 +104,20 @@ void Queue(int delayms, int module, int action,int data = 0) {
   QueueData[QueueLength] = data;
   QueueLength++;
   QueueChanged=true;
+}
+
+void DumpQueue(){    
+  Serial.println("DumpQueue:");
+  for (int i=0;i < QueueLength;i++){
+    Serial.print(i);
+    Serial.print(" - ");
+    Serial.print(QueueTime[i]);
+    Serial.print(" - ");
+    Serial.print(QueueModule[i]);
+    Serial.print(" - ");
+    Serial.print(QueueAction[i]);
+    Serial.print(" - ");
+    Serial.print(QueueData[i]);
+    Serial.println(".");
+  }
 }
