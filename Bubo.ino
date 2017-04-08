@@ -8,12 +8,15 @@
 #include <Adafruit_NeoPixel.h>
 #include <Servo.h>
 
+#define Debug
+
 #define EyesLedAction 1
-#define EyesRotAction 2
-#define WingAction 3
-#define NeckAction 4
-#define LegsAction 5
-#define Mpu6050Action 6
+//#define EyesRotAction 2
+//#define WingAction 3
+//#define NeckAction 4
+//#define LegsAction 5
+//#define Mpu6050Action 6
+//#define BeakAction 7
 
 #define MaxQueueLength 100
 unsigned long QueueTime[MaxQueueLength];
@@ -25,34 +28,45 @@ int QueueChanged = false;
 
 void setup() {
   Serial.begin(115200);
-  init_eyes_led();
-  init_eyes_rot();
-  init_neck();
-  init_beak();
-  init_wings();
-  init_legs();
-  //init_mpu6050();
-  //delay(20000);
+  #ifdef Debug
+    Serial.println("Bubo initialisation started.");
+  #endif
+  #ifdef EyesLedAction
+    init_eyes_led();
+  #endif
+  #ifdef EyesRotAction
+    init_eyes_rot();
+  #endif
+  #ifdef NeckAction
+    init_neck();
+  #endif
+  #ifdef BeakAction
+    init_beak();
+  #endif
+  #ifdef WingAction
+    init_wings();
+  #endif
+  #ifdef LegsAction
+    init_legs();
+  #endif
+  #ifdef Mpu6050Action
+    init_mpu6050();
+  #endif
+  #ifdef Debug
+    Serial.println("Initialisation Finished.");
+  #endif
 }
 
 void loop() { 
-  
-   if (QueueChanged) {
-    Serial.print("QueueLength: ");
-    Serial.println(QueueLength);
-    DumpQueue();
-    QueueChanged=false;
-  }
-  //do_eyes_led();
-  //do_eyes_rot();
-  //do_wings();
-  //do_neck();
-  //do_beak();
-  //do_legs();
-  //read_mpu6050();
-  
-  //rot_neck(read_neck());
-  delay(500);
+   #ifdef Debug
+     if (QueueChanged) {
+      Serial.print("QueueLength: ");
+      Serial.println(QueueLength);
+      DumpQueue();
+      QueueChanged=false;
+    }
+  #endif
+  //delay(500);
   //Serial.println(read_neck());
   for (int i=0;i < QueueLength;i++) {
 
@@ -72,24 +86,41 @@ void loop() {
         case 0:
           // do nothing for debugging
           break;
-        case EyesLedAction:
-          //do_eyes_led(QAction,QData);
-          break;
-        case EyesRotAction:
-          do_eyes_rot(QAction,QData);
-          break;   
-        case WingAction:
-          //init_wings(QAction);
-          break;
-        case NeckAction:
-          do_neck(QAction,QData);
-          break;
-        case LegsAction:  
-          //do_legs(QAction,QData);
-          break;
+        #ifdef EyesLedAction
+          case EyesLedAction:
+            do_eyes_led(QAction,QData);
+            break;
+        #endif
+        #ifdef EyesRotAction
+          case EyesRotAction:
+            do_eyes_rot(QAction,QData);
+            break;   
+        #endif
+        #ifdef WingAction
+          case WingAction:
+            do_wings(QAction,QData);
+            break;
+        #endif
+        #ifdef NeckAction
+          case NeckAction:
+            do_neck(QAction,QData);
+            break;
+        #endif
+        #ifdef LegsAction
+          case LegsAction:  
+            do_legs(QAction,QData);
+            break;
+        #endif
+        #ifdef Mpu6050Action
         case Mpu6050Action:
-          //read_mpu6050(QAction,QData);
-          break;
+            read_mpu6050();
+            break;
+        #endif
+        #ifdef BeakAction
+          case BeakAction:
+            do_beak(QAction,QData);
+            break;
+        #endif
       }
       break;
     }
@@ -97,7 +128,7 @@ void loop() {
 }
 
 // Add event to comandqueue
-void Queue(int delayms, int module, int action,int data = 0) {
+void Queue(unsigned delayms, int module, int action,int data = 0) {
   QueueTime[QueueLength] = millis() + delayms;
   QueueModule[QueueLength] = module;
   QueueAction[QueueLength] = action;
