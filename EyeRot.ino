@@ -63,7 +63,7 @@
   }
   
   void random_eye_move(){
-     int eyemovedelay = 30000 + (random(10) * 10000);
+     unsigned long eyemovedelay = 30000 + (random(10) * 10000);
      int eyemoveduration = 2000 + random(5000);
      int eyemovetype = random(9);
      switch (eyemovetype) { 

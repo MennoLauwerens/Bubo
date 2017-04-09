@@ -28,7 +28,7 @@
         digitalWrite(BeakPin, HIGH);
         break;
       case 2: // reschedule
-        int myDelay = 30000 + random(180000);
+        unsigned long myDelay = 30000 + random(180000);
         Queue(myDelay,BeakAction,1);
         myDelay += random(5000);
         Queue(myDelay,BeakAction,0);

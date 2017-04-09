@@ -11,7 +11,7 @@
 #define Debug
 
 #define EyesLedAction 1
-//#define EyesRotAction 2
+#define EyesRotAction 2
 //#define WingAction 3
 //#define NeckAction 4
 //#define LegsAction 5
