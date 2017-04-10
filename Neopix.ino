@@ -10,10 +10,10 @@
     #endif
     EyePixels.begin();
     for(int i=0; i<255;i++){
-      set_eyes(0,0,i);
+      set_eyes(1,1,i,i,i);
       delay(5);
     }
-    Queue(1000,EyesLedAction,2);
+    Queue(1000,EyesLedAction,3);
     #ifdef Debug
       Serial.println(" - Done.");
     #endif;
@@ -24,40 +24,59 @@
       Serial.print("EyesLedAction: ");
       Serial.println(action);
     #endif
+    int effect;
+    unsigned long myDelay;
     switch (action) {
       case 0: // off
-        set_eyes(0,0,0);
+        set_eyes(1,1,0,0,0);
         break;
       case 1: // on
         //
         break;
       case 2: // reschedule
-        //int myDelay = 30000 + random(180000);
-        //Queue(myDelay,EyesLedAction,1);
+        myDelay = 3000 + random(18000);
+        effect = 10 + random(2);
+        Queue(myDelay,EyesLedAction,effect,0);
         //myDelay += random(5000);
         //Queue(myDelay,EyesLedAction,0);
         //Queue(myDelay + 1,EyesLedAction,2);
-        Queue(1000,EyesLedAction,3,100);
         break;
-       case 3: // strobe red
-        if (actiondata % 2){
-          set_eyes(255,0,0);
+      case 3: // fade to red then goto reschedule
+        set_eyes(1,1,actiondata,0,0);
+        if (++actiondata < 255) {
+          Queue(50,EyesLedAction,3,actiondata);
         } else {
-          set_eyes(0,0,0);
+          Queue(50,EyesLedAction,2);
+        }
+        break;
+      case 10: // strobe blue
+        if (actiondata == 0) {actiondata = random(200);}
+        if (actiondata % 2){
+          set_eyes(1,1,0,0,255);
+        } else {
+          set_eyes(1,1,0,0,0);
         }
         if (--actiondata < 1){
-          set_eyes(0,0,0);
-          Queue(1000,EyesLedAction,2);
+          set_eyes(1,1,0,0,0);
+          Queue(50,EyesLedAction,3);
         } else {
-          Queue(50,EyesLedAction,3,actiondata);
+          Queue(50,EyesLedAction,10,actiondata);
         }
-        
+        break;
+      case 11: // blink right full red
+        if (actiondata++ == 0) {
+          set_eyes(1,0,0,0,0);
+          Queue(500,EyesLedAction,11,actiondata);
+        } else {
+          set_eyes(1,0,255,0,0);
+          Queue(50,EyesLedAction,2);
+        }
     }
   }
 
-  void set_eyes(int R, int G, int B){
-      EyePixels.setPixelColor(0 , EyePixels.Color(R,G,B));
-      EyePixels.setPixelColor(1 , EyePixels.Color(R,G,B));
+  void set_eyes(int Li,int Re,int R, int G, int B){
+      if (Li == 1) {EyePixels.setPixelColor(0 , EyePixels.Color(R,G,B));}
+      if (Re == 1) {EyePixels.setPixelColor(1 , EyePixels.Color(R,G,B));}
       EyePixels.show();
   }
 #endif

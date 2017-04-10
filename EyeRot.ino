@@ -5,6 +5,9 @@
   #define RightEyeCCW 12
   
   void init_eyes_rot() {
+    #ifdef Debug
+      Serial.print("Init eye motors");
+    #endif
     pinMode(LeftEyeCCW, OUTPUT);
     pinMode(RightEyeCCW, OUTPUT);
     pinMode(LeftEyeCW, OUTPUT);
@@ -24,8 +27,10 @@
     digitalWrite(RightEyeCCW, LOW);
     digitalWrite(LeftEyeCW, LOW);
     digitalWrite(RightEyeCW, LOW);
-    
     Queue(2333,EyesRotAction,10);
+    #ifdef Debug
+      Serial.println(" - Done.");
+    #endif
   }
   
   
@@ -63,7 +68,7 @@
   }
   
   void random_eye_move(){
-     unsigned long eyemovedelay = 30000 + (random(10) * 10000);
+     unsigned long eyemovedelay = 3000 + (random(10) * 1000);
      int eyemoveduration = 2000 + random(5000);
      int eyemovetype = random(9);
      switch (eyemovetype) { 
@@ -103,30 +108,5 @@
      Queue(eyemovedelay+eyemoveduration,EyesRotAction,10);
   }
   
-  void do_eyes_rot(){
-    digitalWrite(LeftEyeCCW, HIGH);
-    digitalWrite(RightEyeCCW, LOW);
-    digitalWrite(LeftEyeCW, LOW);
-    digitalWrite(RightEyeCW, LOW);
-    Serial.println("1");
-    delay(1000);
-    digitalWrite(LeftEyeCCW, LOW);
-    digitalWrite(RightEyeCCW, HIGH);
-    digitalWrite(LeftEyeCW, LOW);
-    digitalWrite(RightEyeCW, LOW);
-    Serial.println("2");
-    delay(1000);
-    digitalWrite(LeftEyeCCW, LOW);
-    digitalWrite(RightEyeCCW, LOW);
-    digitalWrite(LeftEyeCW, HIGH);
-    digitalWrite(RightEyeCW, LOW);
-    Serial.println("3");
-    delay(1000);
-    digitalWrite(LeftEyeCCW, LOW);
-    digitalWrite(RightEyeCCW, LOW);
-    digitalWrite(LeftEyeCW, LOW);
-    digitalWrite(RightEyeCW, HIGH);
-    Serial.println("4");
-    
-  }
+
 #endif
