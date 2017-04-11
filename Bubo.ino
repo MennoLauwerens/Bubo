@@ -1,22 +1,24 @@
+
 /* Bubo control
  * 
  * Coding starten on 01-01-2017
  * By M.Lauwerens
  */
-
+#include <Adafruit_SleepyDog.h>
 #include <DFPlayer_Mini_Mp3.h>
 #include <Adafruit_NeoPixel.h>
 #include <Servo.h>
 
-#define Debug
+//#define Debug
 
 #define EyesLedAction 1
 #define EyesRotAction 2
 #define WingAction 3
-//#define NeckAction 4
+#define NeckAction 4
 #define LegsAction 5
-//#define Mpu6050Action 6
+#define Mpu6050Action 6
 #define BeakAction 7
+//#define WxatchdogAction 8
 
 #define MaxQueueLength 100
 unsigned long QueueTime[MaxQueueLength];
@@ -51,6 +53,9 @@ void setup() {
   #endif
   #ifdef Mpu6050Action
     init_mpu6050();
+  #endif
+  #ifdef WatchdogAction
+    init_watchdog();
   #endif
   #ifdef Debug
     Serial.println("Initialisation Finished.");
@@ -113,12 +118,17 @@ void loop() {
         #endif
         #ifdef Mpu6050Action
         case Mpu6050Action:
-            read_mpu6050();
+            do_Mpu6050(QAction,QData);
             break;
         #endif
         #ifdef BeakAction
           case BeakAction:
             do_beak(QAction,QData);
+            break;
+        #endif
+        #ifdef WatchdogAction
+          case WatchdogAction:
+            ResetWatchdog();
             break;
         #endif
       }

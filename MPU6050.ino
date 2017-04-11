@@ -63,6 +63,9 @@
   }
   
   void init_mpu6050() {
+      #ifdef Debug
+        Serial.print("Init mpu6050");
+      #endif
       // join I2C bus (I2Cdev library doesn't do this automatically)
       #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
           Wire.begin();
@@ -72,21 +75,24 @@
       #endif
   
       // initialize device
-      Serial.println(F("Initializing I2C devices..."));
+      #ifdef Debug
+        Serial.println(F("Initializing I2C devices..."));
+      #endif
       mpu.initialize();
   
       // verify connection
-      Serial.println(F("Testing device connections..."));
-      Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+      #ifdef Debug
+        Serial.println(F("Testing device connections..."));
+        Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+        // wait for ready
+        //Serial.println(F("\nSend any character to begin DMP programming and demo: "));
+        //while (Serial.available() && Serial.read()); // empty buffer
+        //while (!Serial.available());                 // wait for data
+        //while (Serial.available() && Serial.read()); // empty buffer again
   
-      // wait for ready
-      //Serial.println(F("\nSend any character to begin DMP programming and demo: "));
-      //while (Serial.available() && Serial.read()); // empty buffer
-      //while (!Serial.available());                 // wait for data
-      //while (Serial.available() && Serial.read()); // empty buffer again
-  
-      // load and configure the DMP
-      Serial.println(F("Initializing DMP..."));
+        // load and configure the DMP
+        Serial.println(F("Initializing DMP..."));
+      #endif
       devStatus = mpu.dmpInitialize();
   
       // supply your own gyro offsets here, scaled for min sensitivity
@@ -98,16 +104,22 @@
       // make sure it worked (returns 0 if so)
       if (devStatus == 0) {
           // turn on the DMP, now that it's ready
-          Serial.println(F("Enabling DMP..."));
+          #ifdef Debug
+            Serial.println(F("Enabling DMP..."));
+          #endif
           mpu.setDMPEnabled(true);
   
           // enable Arduino interrupt detection
-          Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
+          #ifdef Debug
+            Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
+          #endif
           attachInterrupt(0, dmpDataReady, RISING);
           mpuIntStatus = mpu.getIntStatus();
   
           // set our DMP Ready flag so the main loop() function knows it's okay to use it
-          Serial.println(F("DMP ready! Waiting for first interrupt..."));
+          #ifdef Debug
+            Serial.println(F("DMP ready! Waiting for first interrupt..."));
+          #endif
           dmpReady = true;
   
           // get expected DMP packet size for later comparison
@@ -117,14 +129,34 @@
           // 1 = initial memory load failed
           // 2 = DMP configuration updates failed
           // (if it's going to break, usually the code will be 1)
-          Serial.print(F("DMP Initialization failed (code "));
-          Serial.print(devStatus);
-          Serial.println(F(")"));
+          #ifdef Debug
+            Serial.print(F("DMP Initialization failed (code "));
+            Serial.print(devStatus);
+            Serial.println(F(")"));
+          #endif
       }
   
       // configure LED for output
       pinMode(LED_PIN, OUTPUT);
+      Queue(50,Mpu6050Action,1,0);
   }
+
+  void do_Mpu6050(int action, int actiondata){
+    #ifdef Debug
+      Serial.print("Mpu6050Action: ");
+      Serial.println(action);
+    #endif
+    switch (action) {
+      case 0: // off
+        break;
+      case 1: // on
+        read_neck();
+      case 2: // reschedule
+        Queue(50,Mpu6050Action,1,0);
+        break;
+    }
+  }
+
   
   int read_neck(){
     int yaw;
@@ -151,7 +183,9 @@
           rotation = yaw - lastyaw;
         }
         lastyaw=yaw;
-        Serial.println(yaw);
+        #ifdef Debug
+          Serial.println(yaw);
+        #endif
         return(rotation);
   //      Serial.print("ypr\t");
   //            Serial.print(ypr[0] * 180/M_PI);
