@@ -28,7 +28,7 @@
   // more info, see: http://en.wikipedia.org/wiki/Gimbal_lock)
   #define OUTPUT_READABLE_YAWPITCHROLL
   
-  #define LED_PIN 13 // (Arduino is 13, Teensy is 11, Teensy++ is 6)
+ 
   bool blinkState = false;
   
   // MPU control/status vars
@@ -136,8 +136,8 @@
           #endif
       }
   
-      // configure LED for output
-      pinMode(LED_PIN, OUTPUT);
+  
+      
       Queue(50,Mpu6050Action,1,0);
   }
 
@@ -309,10 +309,7 @@
               teapotPacket[11]++; // packetCount, loops at 0xFF on purpose
           #endif
   
-          // blink LED to indicate activity
-          blinkState = !blinkState;
-          digitalWrite(LED_PIN, blinkState);
-  
+           
       }
   
   }

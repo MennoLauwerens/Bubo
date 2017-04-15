@@ -1,6 +1,6 @@
 #ifdef BeakAction
+ 
   #define BeakPin 8
-  
   void init_beak() {
     #ifdef Debug
       Serial.print("Init beak");

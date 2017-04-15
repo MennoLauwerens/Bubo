@@ -4,20 +4,22 @@
  * Coding starten on 01-01-2017
  * By M.Lauwerens
  */
+ 
 #include <Adafruit_SleepyDog.h>
 #include <DFPlayer_Mini_Mp3.h>
 #include <Adafruit_NeoPixel.h>
 #include <Servo.h>
 
 //#define Debug
+#define SoundAction 9
 
 #define EyesLedAction 1
-#define EyesRotAction 2
-#define WingAction 3
-#define NeckAction 4
-#define LegsAction 5
-#define Mpu6050Action 6
-#define BeakAction 7
+//#define EyesRotAction 2
+//#define WingAction 3
+//#define NeckAction 4
+//#define LegsAction 5
+//#define Mpu6050Action 6
+//#define BeakAction 7
 //#define WxatchdogAction 8
 
 #define MaxQueueLength 100
@@ -56,6 +58,9 @@ void setup() {
   #endif
   #ifdef WatchdogAction
     init_watchdog();
+  #endif
+  #ifdef SoundAction
+    init_Sound();
   #endif
   #ifdef Debug
     Serial.println("Initialisation Finished.");
@@ -129,6 +134,11 @@ void loop() {
         #ifdef WatchdogAction
           case WatchdogAction:
             ResetWatchdog();
+            break;
+        #endif
+        #ifdef SoundAction
+          case SoundAction:
+            do_sound(QAction,QData);
             break;
         #endif
       }

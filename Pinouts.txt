@@ -5,16 +5,16 @@
                 - RST -             |         - RST -
                 - GND -             |         - 5V  -
 MPU6050         - D2  -     INT0    |         - A7  -
-Left eye speed  - D3  - PWM INT1    |         - A6  -
-Left eye dir    - D4  -             | SCL     - A5  - MPU6050
+Left eye        - D3  - PWM INT1    |         - A6  -
+Left eye        - D4  -             | SCL     - A5  - MPU6050
 Left Wing       - D5  - PWM         | SDA     - A4  - MPU6050
 Right Wing      - D6  - PWM         |         - A3  -
 Neopixel        - D7  -             |         - A2  -
 Beak/FET        - D8  -             |         - A1  -
 Neck            - D9  - PWM         |         - A0  -
 Legs            - D10 - PWM SS      |         - REF -
-Right eye speed - D11 - PWM MOSI    |         - 3V3 -
-Right eye dir   - D12 -     MISO    | SCK LED - D13 - MPU6050 LED
+Right eye       - D11 - PWM MOSI    |         - 3V3 -
+Right eye       - D12 -     MISO    | SCK LED - D13 - 
                 -------------------------------------
 
 NC:
