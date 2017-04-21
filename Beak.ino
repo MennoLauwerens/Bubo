@@ -30,7 +30,7 @@
       case 2: // reschedule
         unsigned long myDelay = 30000 + random(180000);
         Queue(myDelay,BeakAction,1);
-        myDelay += random(5000);
+        myDelay += 1000 + random(1000);
         Queue(myDelay,BeakAction,0);
         Queue(myDelay + 1,BeakAction,2);
     }

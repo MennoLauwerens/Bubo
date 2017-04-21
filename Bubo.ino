@@ -14,12 +14,12 @@
 #define SoundAction 9
 
 #define EyesLedAction 1
-//#define EyesRotAction 2
-//#define WingAction 3
-//#define NeckAction 4
-//#define LegsAction 5
+#define EyesRotAction 2
+#define WingAction 3
+#define NeckAction 4
+#define LegsAction 5
 //#define Mpu6050Action 6
-//#define BeakAction 7
+#define BeakAction 7
 //#define WxatchdogAction 8
 
 #define MaxQueueLength 100

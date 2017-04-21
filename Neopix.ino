@@ -1,6 +1,7 @@
 #ifdef EyesLedAction
   #define LedPin 7
   #define LedSpeed 80
+  #define LedMax 128
   
   Adafruit_NeoPixel EyePixels = Adafruit_NeoPixel(2, LedPin, NEO_GRB + NEO_KHZ800);
   
@@ -9,7 +10,7 @@
       Serial.print("Init Neopixels");
     #endif
     EyePixels.begin();
-    for(int i=0; i<255;i++){
+    for(int i=0; i<LedMax;i++){
       set_eyes(1,1,i,i,i);
       delay(5);
     }
@@ -37,13 +38,10 @@
         myDelay = 3000 + random(18000);
         effect = 10 + random(2);
         Queue(myDelay,EyesLedAction,effect,0);
-        //myDelay += random(5000);
-        //Queue(myDelay,EyesLedAction,0);
-        //Queue(myDelay + 1,EyesLedAction,2);
         break;
       case 3: // fade to red then goto reschedule
         set_eyes(1,1,actiondata,0,0);
-        if (++actiondata < 255) {
+        if (++actiondata < LedMax) {
           Queue(50,EyesLedAction,3,actiondata);
         } else {
           Queue(50,EyesLedAction,2);
@@ -68,7 +66,7 @@
           set_eyes(1,0,0,0,0);
           Queue(500,EyesLedAction,11,actiondata);
         } else {
-          set_eyes(1,0,255,0,0);
+          set_eyes(1,0,LedMax,0,0);
           Queue(50,EyesLedAction,2);
         }
     }

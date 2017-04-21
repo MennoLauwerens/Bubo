@@ -60,7 +60,7 @@
         ServoWingRight.attach(RightWingPin);
         break;
       case 2: // reschedule
-        myDelay = 3000 + random(18000);
+        myDelay = 30000 + random(180000);
         effect = 10 + random(3);
         Queue(myDelay,WingAction,1);
         Queue(myDelay+50,WingAction,effect,3 + random(9));

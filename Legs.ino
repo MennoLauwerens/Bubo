@@ -42,7 +42,7 @@
         ServoLegs.attach(LegPin);
         break;
       case 2: // reschedule
-        myDelay1 = 3000 + random(18000); //30000 + random(180000); // 30sec - 3.5 minuut
+        myDelay1 = 30000 + random(180000); //30000 + random(180000); // 30sec - 3.5 minuut
         myDelay2 = myDelay1 + 500 + random(30000);
         Serial.println( myDelay1);
         Serial.println( myDelay2);

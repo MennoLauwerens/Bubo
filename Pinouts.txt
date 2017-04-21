@@ -1,7 +1,7 @@
                         ARDUINO NANO
                 -------------------------------------     
-                - D1  -     TX      |         - VIN -
-                - D0  -     RX      |         - GND -
+             prs- D1  -     TX      |         - VIN -
+             ora- D0  -     RX      |         - GND -
                 - RST -             |         - RST -
                 - GND -             |         - 5V  -
 MPU6050         - D2  -     INT0    |         - A7  -
